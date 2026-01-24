@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoodLens - AI Mental Wellness Companion</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-brain"></i>
+                <span>MoodLens</span>
+            </div>
+            <div class="nav-menu">
+                <a href="#dashboard" class="nav-link active">Dashboard</a>
+                <a href="#monitor" class="nav-link">Monitor</a>
+                <a href="#insights" class="nav-link">Insights</a>
+                <a href="#about" class="nav-link">About</a>
+            </div>
+            <div class="nav-user">
+                <span class="user-name">You</span>
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="dashboard-section">
+            <div class="section-header">
+                <h1>Welcome to MoodLens</h1>
+                <p>Your AI-powered mental wellness companion</p>
+            </div>
+
+            <div class="dashboard-grid">
+                <!-- Current Mood Card -->
+                <div class="card mood-card">
+                    <div class="card-header">
+                        <h2>Current Emotional State</h2>
+                        <span class="status-badge" id="statusBadge">Ready</span>
+                    </div>
+                    <div class="emotion-display">
+                        <div class="emotion-wheel" id="emotionWheel">
+                            <svg viewBox="0 0 200 200" class="wheel-svg">
+                                <circle cx="100" cy="100" r="95" fill="none" stroke="#e0e0e0" stroke-width="2"/>
+                                <circle cx="100" cy="100" r="70" fill="none" stroke="#f0f0f0" stroke-width="1"/>
+                                <circle cx="100" cy="100" r="45" fill="none" stroke="#f5f5f5" stroke-width="1"/>
+                            </svg>
+                            <div class="wheel-center">
+                                <div class="emotion-emoji" id="emotionEmoji">😌</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="emotion-metrics">
+                        <div class="metric">
+                            <label>Stress Level</label>
+                            <div class="metric-bar">
+                                <div class="metric-fill stress" id="stressLevel" style="width: 30%"></div>
+                            </div>
+                            <span class="metric-value" id="stressValue">30%</span>
+                        </div>
+                        <div class="metric">
+                            <label>Fatigue Level</label>
+                            <div class="metric-bar">
+                                <div class="metric-fill fatigue" id="fatigueLevel" style="width: 25%"></div>
+                            </div>
+                            <span class="metric-value" id="fatigueValue">25%</span>
+                        </div>
+                        <div class="metric">
+                            <label>Mood Score</label>
+                            <div class="metric-bar">
+                                <div class="metric-fill mood" id="moodLevel" style="width: 75%"></div>
+                            </div>
+                            <span class="metric-value" id="moodValue">75%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="card actions-card">
+                    <div class="card-header">
+                        <h2>Quick Actions</h2>
+                    </div>
+                    <div class="actions-grid">
+                        <button class="action-btn" onclick="startMonitoring()">
+                            <i class="fas fa-video"></i>
+                            <span>Start Monitoring</span>
+                        </button>
+                        <button class="action-btn" onclick="startMicrophone()">
+                            <i class="fas fa-microphone"></i>
+                            <span>Voice Analysis</span>
+                        </button>
+                        <button class="action-btn" onclick="viewRecommendations()">
+                            <i class="fas fa-lightbulb"></i>
+                            <span>Get Recommendations</span>
+                        </button>
+                        <button class="action-btn" onclick="viewInsights()">
+                            <i class="fas fa-chart-line"></i>
+                            <span>View Insights</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Monitor Section -->
+        <section id="monitor" class="monitor-section">
+            <div class="section-header">
+                <h1>Real-time Monitoring</h1>
+                <p>AI-powered perception and analysis</p>
+            </div>
+
+            <div class="monitor-grid">
+                <!-- Camera Feed -->
+                <div class="card camera-card">
+                    <div class="card-header">
+                        <h2>Webcam Feed</h2>
+                        <span class="badge" id="cameraStatus">
+                            <span class="status-dot"></span>
+                            Inactive
+                        </span>
+                    </div>
+                    <div class="camera-container">
+                        <video id="videoFeed" class="video-feed" playsinline></video>
+                        <canvas id="canvas" style="display:none;"></canvas>
+                        <div class="overlay-info" id="overlayInfo">
+                            <div class="info-item">
+                                <span class="label">FPS:</span>
+                                <span class="value" id="fps">0</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label">Confidence:</span>
+                                <span class="value" id="confidence">0%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Emotion Analysis -->
+                <div class="card analysis-card">
+                    <div class="card-header">
+                        <h2>Emotion Analysis</h2>
+                    </div>
+                    <div class="emotions-breakdown">
+                        <div class="emotion-item">
+                            <span class="emotion-name">😊 Happy</span>
+                            <div class="emotion-bar">
+                                <div class="emotion-progress happy" id="happy" style="width: 40%"></div>
+                            </div>
+                            <span class="emotion-percent" id="happyPercent">40%</span>
+                        </div>
+                        <div class="emotion-item">
+                            <span class="emotion-name">😐 Neutral</span>
+                            <div class="emotion-bar">
+                                <div class="emotion-progress neutral" id="neutral" style="width: 35%"></div>
+                            </div>
+                            <span class="emotion-percent" id="neutralPercent">35%</span>
+                        </div>
+                        <div class="emotion-item">
+                            <span class="emotion-name">😢 Sad</span>
+                            <div class="emotion-bar">
+                                <div class="emotion-progress sad" id="sad" style="width: 15%"></div>
+                            </div>
+                            <span class="emotion-percent" id="sadPercent">15%</span>
+                        </div>
+                        <div class="emotion-item">
+                            <span class="emotion-name">😡 Angry</span>
+                            <div class="emotion-bar">
+                                <div class="emotion-progress angry" id="angry" style="width: 5%"></div>
+                            </div>
+                            <span class="emotion-percent" id="angryPercent">5%</span>
+                        </div>
+                        <div class="emotion-item">
+                            <span class="emotion-name">😨 Fear</span>
+                            <div class="emotion-bar">
+                                <div class="emotion-progress fear" id="fear" style="width: 3%"></div>
+                            </div>
+                            <span class="emotion-percent" id="fearPercent">3%</span>
+                        </div>
+                        <div class="emotion-item">
+                            <span class="emotion-name">😮 Surprise</span>
+                            <div class="emotion-bar">
+                                <div class="emotion-progress surprise" id="surprise" style="width: 2%"></div>
+                            </div>
+                            <span class="emotion-percent" id="surprisePercent">2%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recommendations Section -->
+        <section id="recommendations" class="recommendations-section hidden">
+            <div class="section-header">
+                <h1>AI-Generated Recommendations</h1>
+                <p>Personalized interventions based on your current state</p>
+            </div>
+
+            <div class="severity-indicator">
+                <h3>Current Severity Level:</h3>
+                <div class="severity-badge" id="severityBadge">Low</div>
+            </div>
+
+            <div class="recommendations-grid" id="recommendationsGrid">
+                <!-- Recommendations will be populated here -->
+            </div>
+        </section>
+
+        <!-- Insights Section -->
+        <section id="insights" class="insights-section hidden">
+            <div class="section-header">
+                <h1>Session Insights</h1>
+                <p>Your emotional journey and patterns</p>
+            </div>
+
+            <div class="insights-grid">
+                <div class="card insight-card">
+                    <h3>Emotional Trends</h3>
+                    <div class="trend-chart" id="trendChart">
+                        <canvas id="trendCanvas"></canvas>
+                    </div>
+                </div>
+
+                <div class="card insight-card">
+                    <h3>Session Statistics</h3>
+                    <div class="stats-list" id="statsContainer">
+                        <div class="stat-item">
+                            <span class="stat-label">Session Duration</span>
+                            <span class="stat-value" id="sessionDuration">0:00</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Emotions Detected</span>
+                            <span class="stat-value" id="emotionsDetected">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Interventions Provided</span>
+                            <span class="stat-value" id="interventions">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Avg. Effectiveness</span>
+                            <span class="stat-value" id="avgEffectiveness">0%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card insight-card full-width">
+                    <h3>Key Patterns Detected</h3>
+                    <div class="patterns-list" id="patternsList">
+                        <!-- Patterns will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Modal for Recommendations -->
+    <div id="recommendationModal" class="modal hidden">
+        <div class="modal-content recommendation-modal">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle">Recommended Intervention</h2>
+            <div id="modalBody">
+                <!-- Content will be populated -->
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeModal()">Close</button>
+                <button class="btn btn-primary" onclick="startIntervention()">Start Now</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Feedback -->
+    <div id="feedbackModal" class="modal hidden">
+        <div class="modal-content feedback-modal">
+            <span class="close-btn" onclick="closeFeedbackModal()">&times;</span>
+            <h2>How was this intervention?</h2>
+            <div class="feedback-form">
+                <div class="form-group">
+                    <label>Rate Effectiveness</label>
+                    <div class="rating-stars">
+                        <i class="fas fa-star" onclick="setRating(1)"></i>
+                        <i class="fas fa-star" onclick="setRating(2)"></i>
+                        <i class="fas fa-star" onclick="setRating(3)"></i>
+                        <i class="fas fa-star" onclick="setRating(4)"></i>
+                        <i class="fas fa-star" onclick="setRating(5)"></i>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Comments</label>
+                    <textarea id="feedbackText" placeholder="How did this help you?" rows="4"></textarea>
+                </div>
+                <button class="btn btn-primary" onclick="submitFeedback()">Submit Feedback</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div class="spinner hidden" id="loadingSpinner">
+        <div class="spinner-border"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

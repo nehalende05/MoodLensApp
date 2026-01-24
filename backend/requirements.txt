@@ -1,0 +1,7 @@
+flask==3.0.0
+flask-cors==4.0.0
+numpy==1.24.3
+opencv-python==4.8.0.74
+deepface==0.0.67
+Pillow==10.0.0
+python-dotenv==1.0.0
